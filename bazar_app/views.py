@@ -58,7 +58,7 @@ class CategoriesListView(ListView):
             published_at__isnull=False,
             status="active",
             category__id=self.kwargs["cid"],
-        )
+        ).order_by("-published_at")
         return query
     
 class TagsListView(ListView):
@@ -73,9 +73,11 @@ class TagsListView(ListView):
             published_at__isnull=False,
             status="active",
             category__id=self.kwargs["tid"],
-        )
+        ).order_by("-published_at")
         return query
     
+
+
 
 
 class ProductDetailView(DetailView):
@@ -90,6 +92,18 @@ class ProductDetailView(DetailView):
             status="active",
         )
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.object  # Get the current product
+        context["extra_products"] = Product.objects.filter(
+            category=product.category,  # Filter by the same category
+            published_at__isnull=False,
+            status="active",
+        ).exclude(id=product.id).order_by("-published_at")[:6]  # Exclude the current product
+        return context
+
+
+
 class ProductAddView(CreateView):
     model = Product
     template_name = "addproducts.html"
@@ -102,3 +116,17 @@ class ProductAddView(CreateView):
     
     def get_success_url(self):
         return reverse_lazy("product-detail", kwargs={"pk": self.object.pk})
+    
+class ProductUpdateView(UpdateView):
+    model = Product
+    template_name = "addproducts.html"
+    form_class = AddProductForm
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Product Updated successfully!")
+        return response
+    
+    def get_success_url(self):
+        return reverse_lazy("product-detail", kwargs={"pk": self.object.pk})
+    

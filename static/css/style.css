@@ -7664,6 +7664,7 @@ textarea:focus {
 
 .product-details-img .zoompro-span .zoompro {
   width: 100%;
+  height: 600px !important;
 }
 
 .product-details-img .zoompro-span>span {

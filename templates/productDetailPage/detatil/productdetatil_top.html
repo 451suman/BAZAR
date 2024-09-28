@@ -1,3 +1,30 @@
+<!-- Modal -->
+<div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ACTION DELETE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the title <strong>{{ product.title|truncatechars:50 }}</strong>?</p>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">DELETE</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+
 <div class="product-details-area pt-50 "></div>
 <div class="container">
     <div class="row">
@@ -21,9 +48,26 @@
         </div>
         <div class="col-lg-6 col-md-6">
             <div class="product-details-content ml-30">
+                <div class="mb-4">
+                    <a href="{% url 'update-product' product.pk %}" class="btn btn-success">EDIT</a>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletemodal">
+                        DELETE
+                    </button>
+                    <br>
+
+                </div>
+
                 <h2>{{product.title}}</h2>
                 <div class="product-details-price">
                     <span>Rs. {{product.price}} </span>
+                </div>
+                <div class="pro-details-meta">
+                    <span>Categories : {{product.category}}</span>
+
+                </div>
+                <div class="pro-details-meta">
+                    <span>Tags: {{ product.tag.all|join:", "}}</span>
                 </div>
                 <div class="pro-details-rating-wrap">
                     <div class="pro-details-rating">
@@ -36,36 +80,13 @@
                     <span><a href="#">3 Reviews</a></span>
                 </div>
                 <div class="pro-details-list">
-                    
+
                 </div>
                 <div class="pro-details-size-color">
-                    <div class="pro-details-color-wrap">
-                        <span>Color</span>
-                        <div class="pro-details-color-content">
-                            <ul>
-                                <li class="blue"></li>
-                                <li class="maroon active"></li>
-                                <li class="gray"></li>
-                                <li class="green"></li>
-                                <li class="yellow"></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="pro-details-size">
-                        <span>Size</span>
-                        <div class="pro-details-size-content">
-                            <ul>
-                                <li><a href="#">s</a></li>
-                                <li><a href="#">m</a></li>
-                                <li><a href="#">l</a></li>
-                                <li><a href="#">xl</a></li>
-                                <li><a href="#">xxl</a></li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
                 <div class="pro-details-quality">
                     <div class="cart-plus-minus">
+
                         <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
                     </div>
                     <div class="pro-details-cart btn-hover">
@@ -74,26 +95,9 @@
                     <div class="pro-details-wishlist">
                         <a title="Add To Wishlist" href="#"><i class="sli sli-heart"></i></a>
                     </div>
-                    <div class="pro-details-compare">
-                        <a title="Add To Compare" href="#"><i class="sli sli-refresh"></i></a>
-                    </div>
+
                 </div>
-                <div class="pro-details-meta">
-                    <span>Categories :</span>
-                    <ul>
-                        <li><a href="#">Minimal,</a></li>
-                        <li><a href="#">Furniture,</a></li>
-                        <li><a href="#">Fashion</a></li>
-                    </ul>
-                </div>
-                <div class="pro-details-meta">
-                    <span>Tag :</span>
-                    <ul>
-                        <li><a href="#">Fashion, </a></li>
-                        <li><a href="#">Furniture,</a></li>
-                        <li><a href="#">Electronic</a></li>
-                    </ul>
-                </div>
+
             </div>
         </div>
     </div>
