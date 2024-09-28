@@ -4,14 +4,14 @@
     <div class="main-header-wrap">
         <div class="container">
             <div class="row">
-                <div class="col-xl-2 col-lg-2">
+                <div class="col-xl-1 col-lg-1">
                     <div class="logo pt-40">
                         <a href="{% url 'home' %}">
                             <img src="{% static 'img/logo/logo.png' %}" alt="">
                         </a>
                     </div>
                 </div>
-                <div class="col-xl-7 col-lg-7 ">
+                <div class="col-xl-9 col-lg-9 ">
                     <div class="main-menu">
                         <nav>
                             <ul>
@@ -21,12 +21,15 @@
                                 <li class="angle-shape">
                                     <a href="{% url 'product-list' %}">Products </a>
                                 </li>
+                                <li class="angle-shape">
+                                    <a href="#"> Draft Products </a>
+                                </li>
                                 <li class="angle-shape"><a href="#">categories </a>
                                     <ul class="submenu">
                                         {% for category in categories %}
                                         <li><a href="{% url 'category-list' category.id %}">{{category.name}} </a></li>
                                         {% endfor %}
-                                        <li ><a href="#"class="text-warning">All category </a></li>
+                                        <li><a href="#" class="text-warning">All category </a></li>
                                     </ul>
 
                                 </li>
@@ -36,11 +39,11 @@
                                         {% for tag in tags %}
                                         <li><a href="{% url 'tag-list' tag.id %}">{{tag.name}} </a></li>
                                         {% endfor %}
-                                        <li ><a href="#"class="text-warning">All Tags </a></li>
+                                        <li><a href="#" class="text-warning">All Tags </a></li>
                                     </ul>
 
                                 </li>
-                                
+
 
                                 <li><a href="contact-us.html"> Contact </a></li>
 
@@ -49,7 +52,7 @@
                         </nav>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-3">
+                <div class="col-xl-2 col-lg-2">
                     <div class="header-right-wrap pt-40">
                         <div class="header-search">
                             <a class="search-active" href="#"><i class="sli sli-magnifier"></i></a>
@@ -112,11 +115,28 @@
                             </button>
                             <div class="setting-content">
                                 <ul>
+                                    <h4>
+                                        {% if request.user.is_authenticated %}
+                                        <p>Welcome, @{{ request.user.username }}!</p>
+                                    {% else %}
+                                        <p>Hello, Guest!</p>
+                                    {% endif %}
+                                    
+
+                                    </h4>
                                     <li><a href="my-account.html">My Account</a></li>
-                                    <h4>Account</h4>
                                     <ul>
-                                        <li><a href="login-register.html">Login</a></li>
-                                        <li><a href="login-register.html">Creat Account</a></li>
+                                        {% if request.user.is_authenticated %}
+                                        <li>
+                                            <form action="{% url 'logout' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="submit" value="logout" class="btn btn-warning" /> 
+                                            </form>
+                                        </li>
+                                        {% else %}
+                                        <li><a href="{% url 'login' %}">Login</a></li>
+                                        <li><a href="{% url 'register' %}">Creat Account</a></li>
+                                        {% endif %}
                                     </ul>
                                     </li>
                                 </ul>

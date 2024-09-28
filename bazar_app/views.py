@@ -10,14 +10,28 @@ from django.views.generic import (
     UpdateView,
     ListView,
     DetailView,
+    FormView,
 )
 
-from bazar_app.forms import AddProductForm
+from bazar_app.forms import AddProductForm, UserRegistrationForm
 from bazar_app.models import Product
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login
 
 
 # Create your views here.
+class RegisterView(FormView):
+    template_name = "registration/signup.html"
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy("login")
+
+    def form_valid(self, form):
+        user = form.save()
+        messages.success(self.request, "Signup Successfull!")
+        # login(self.request, user)
+        return super().form_valid(form)
+
+
 class HomeView(ListView):
     model = Product
     template_name = "home/home.html"
@@ -44,9 +58,12 @@ class ProductsListView(ListView):
 
     def get_queryset(self):
         query = super().get_queryset()
-        query = Product.objects.filter(published_at__isnull=False, status="active").order_by("-published_at")
+        query = Product.objects.filter(
+            published_at__isnull=False, status="active"
+        ).order_by("-published_at")
         return query
-    
+
+
 class CategoriesListView(ListView):
     model = Product
     template_name = "product_list/product_list.html"
@@ -61,7 +78,8 @@ class CategoriesListView(ListView):
             category__id=self.kwargs["cid"],
         ).order_by("-published_at")
         return query
-    
+
+
 class TagsListView(ListView):
     model = Product
     template_name = "product_list/product_list.html"
@@ -76,12 +94,9 @@ class TagsListView(ListView):
             category__id=self.kwargs["tid"],
         ).order_by("-published_at")
         return query
-    
 
 
-
-
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "productDetailPage/product_detail_page.html"
     context_object_name = "product"
@@ -92,20 +107,23 @@ class ProductDetailView(DetailView):
             published_at__isnull=False,
             status="active",
         )
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product = self.object  # Get the current product
-        context["extra_products"] = Product.objects.filter(
-            category=product.category,  # Filter by the same category
-            published_at__isnull=False,
-            status="active",
-        ).exclude(id=product.id).order_by("-published_at")[:6]  # Exclude the current product
+        context["extra_products"] = (
+            Product.objects.filter(
+                category=product.category,  # Filter by the same category
+                published_at__isnull=False,
+                status="active",
+            )
+            .exclude(id=product.id)
+            .order_by("-published_at")[:6]
+        )  # Exclude the current product
         return context
 
 
-
-class ProductAddView(CreateView):
+class ProductAddView(LoginRequiredMixin, CreateView):
     model = Product
     template_name = "forms/addproducts.html"
     form_class = AddProductForm
@@ -114,11 +132,12 @@ class ProductAddView(CreateView):
         response = super().form_valid(form)
         messages.success(self.request, "Product added successfully!")
         return response
-    
+
     def get_success_url(self):
         return reverse_lazy("product-detail", kwargs={"pk": self.object.pk})
-    
-class ProductUpdateView(UpdateView):
+
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     template_name = "forms/addproducts.html"
     form_class = AddProductForm
@@ -127,10 +146,11 @@ class ProductUpdateView(UpdateView):
         response = super().form_valid(form)
         messages.success(self.request, "Product Updated successfully!")
         return response
-    
+
     def get_success_url(self):
         return reverse_lazy("product-detail", kwargs={"pk": self.object.pk})
-    
+
+
 class ProductDeleteview(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy("product-list")
