@@ -14,6 +14,7 @@ from django.views.generic import (
 
 from bazar_app.forms import AddProductForm
 from bazar_app.models import Product
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
@@ -130,3 +131,11 @@ class ProductUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy("product-detail", kwargs={"pk": self.object.pk})
     
+class ProductDeleteview(LoginRequiredMixin, DeleteView):
+    model = Product
+    success_url = reverse_lazy("product-list")
+    # success_url: This attribute defines the URL to redirect to after the Post has been successfully deleted.
+
+    def form_valid(self, form):
+        messages.success(self.request, "product was Deleted Successfully")
+        return super().form_valid(form)
