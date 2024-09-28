@@ -31,7 +31,7 @@ class HomeView(ListView):
 
         context["products"] = Product.objects.filter(
             published_at__isnull=False, status="active"
-        ).order_by("-published_at")
+        ).order_by("-published_at")[:8]
 
         return context
 
@@ -107,7 +107,7 @@ class ProductDetailView(DetailView):
 
 class ProductAddView(CreateView):
     model = Product
-    template_name = "addproducts.html"
+    template_name = "forms/addproducts.html"
     form_class = AddProductForm
 
     def form_valid(self, form):
@@ -120,7 +120,7 @@ class ProductAddView(CreateView):
     
 class ProductUpdateView(UpdateView):
     model = Product
-    template_name = "addproducts.html"
+    template_name = "forms/addproducts.html"
     form_class = AddProductForm
 
     def form_valid(self, form):

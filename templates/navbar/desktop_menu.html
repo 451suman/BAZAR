@@ -26,7 +26,7 @@
                                         {% for category in categories %}
                                         <li><a href="{% url 'category-list' category.id %}">{{category.name}} </a></li>
                                         {% endfor %}
-                                        <li class="text-warning"><a href="#">All category </a></li>
+                                        <li ><a href="#"class="text-warning">All category </a></li>
                                     </ul>
 
                                 </li>
@@ -36,7 +36,7 @@
                                         {% for tag in tags %}
                                         <li><a href="{% url 'tag-list' tag.id %}">{{tag.name}} </a></li>
                                         {% endfor %}
-                                        <li class="text-warning"><a href="#">All category </a></li>
+                                        <li ><a href="#"class="text-warning">All Tags </a></li>
                                     </ul>
 
                                 </li>

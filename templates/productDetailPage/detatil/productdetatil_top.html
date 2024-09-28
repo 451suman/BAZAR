@@ -48,6 +48,7 @@
         </div>
         <div class="col-lg-6 col-md-6">
             <div class="product-details-content ml-30">
+                {% if request.user.is_superuser %}
                 <div class="mb-4">
                     <a href="{% url 'update-product' product.pk %}" class="btn btn-success">EDIT</a>
                     <!-- Button trigger modal -->
@@ -55,8 +56,8 @@
                         DELETE
                     </button>
                     <br>
-
                 </div>
+                {% endif %}
 
                 <h2>{{product.title}}</h2>
                 <div class="product-details-price">
