@@ -4301,7 +4301,7 @@ textarea:focus {
   width: 100%;
   -ms-flex-item-align: start;
   align-self: flex-start;
-  height: 350px;
+  height: 250px;
 }
 
 .ht-products .ht-product .ht-product-inner .ht-product-image-wrap .ht-product-image .ht-product-image-slider {
@@ -10735,3 +10735,13 @@ h3.cart-page-title {
 }
 
 /*-------- Start My Account Page Wrapper --------*/
+
+
+/* pagination active */
+.pageactive {
+  font-weight: bold; /* Example style */
+  color: black !important;
+  background-color: red; /* Example style */
+}
+
+/* pagination active */
