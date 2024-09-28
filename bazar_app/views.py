@@ -1,5 +1,8 @@
+from django.contrib import messages
 from typing import Any
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import (
     TemplateView,
     CreateView,
@@ -9,6 +12,7 @@ from django.views.generic import (
     DetailView,
 )
 
+from bazar_app.forms import AddProductForm
 from bazar_app.models import Product
 
 
@@ -76,7 +80,7 @@ class TagsListView(ListView):
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = "productDetailPage/product_detail.html"
+    template_name = "productDetailPage/product_detail_page.html"
     context_object_name = "product"
 
     def get_queryset(self):
@@ -85,3 +89,16 @@ class ProductDetailView(DetailView):
             published_at__isnull=False,
             status="active",
         )
+    
+class ProductAddView(CreateView):
+    model = Product
+    template_name = "addproducts.html"
+    form_class = AddProductForm
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Product added successfully!")
+        return response
+    
+    def get_success_url(self):
+        return reverse_lazy("product-detail", kwargs={"pk": self.object.pk})

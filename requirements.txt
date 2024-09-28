@@ -1,2 +1,5 @@
 Django==5.1.1
 pillow==10.4.0
+django-summernote==0.8.20.0
+django-crispy-forms==2.3
+crispy-bootstrap4==2024.1
