@@ -21,14 +21,14 @@
                             <div class="ht-product ht-product-action-on-hover ht-product-category-right-bottom mb-30">
                                 <div class="ht-product-inner">
                                     <div class="ht-product-image-wrap">
-                                        <a href="#" class="ht-product-image">
+                                        <a href="{% url 'product-detail' product.pk %}" class="ht-product-image">
                                             <img src="{{ product.featured_image.url }}" alt="{{ product.title }}">
                                         </a>
                                     </div>
                                     <div class="ht-product-content">
                                         <div class="ht-product-content-inner">
                                             <h4 class="ht-product-title">
-                                                <a href="#">{{ product.title|truncatechars:100 }}</a>
+                                                <a href="{% url 'product-detail' product.pk %}">{{ product.title|truncatechars:100 }}</a>
                                             </h4>
                                             <p class="text-danger">Category: {{ product.category.name }}</p>
                                             <div class="ht-product-price">
