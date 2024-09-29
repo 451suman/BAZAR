@@ -17,4 +17,7 @@ urlpatterns = [
 
     path("draft-product-list/", views.DraftProductsListView.as_view(), name="draft-product-list"),
     path("published/<int:id>/",views.PublishDraftView.as_view(), name="published"),
+
+    path("category/", views.CategoryListView.as_view(), name="category"),
+    path("tag/", views.TagListView.as_view(), name="tag"),
 ]

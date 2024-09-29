@@ -14,7 +14,7 @@ from django.views.generic import (
 )
 
 from bazar_app.forms import AddProductForm, UserRegistrationForm
-from bazar_app.models import Product
+from bazar_app.models import Category, Product, Tag
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 # from django.contrib.auth import login
@@ -94,7 +94,7 @@ class TagsListView(ListView):
         query = query.filter(
             published_at__isnull=False,
             status="active",
-            category__id=self.kwargs["tid"],
+            tag__id=self.kwargs["tid"],
         ).order_by("-published_at")
         return query
 
@@ -189,3 +189,12 @@ class PublishDraftView(LoginRequiredMixin, View):
 
 
 
+class CategoryListView(ListView):
+    model = Category
+    template_name = "category_name_list.html"
+    context_object_name="categories"
+
+class TagListView(ListView):
+    model = Tag
+    template_name = "tag_name_list.html"
+    context_object_name="tags"
