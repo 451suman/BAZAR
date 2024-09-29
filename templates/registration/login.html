@@ -10,27 +10,34 @@
                         <a class="active" href="{% url 'login' %}">
                             <h4>Login</h4>
                         </a>
-                        <a  href="{% url 'register' %}">
+                        <a href="{% url 'register' %}">
                             <h4>Register</h4>
                         </a>
                     </div>
-                   
-                            <div class="login-form-container">
-                                <div class="login-register-form">
-                                    <form action="{% url 'login' %}" method="post">
-                                       {% csrf_token %}
-                                        <input type="text" name="username" placeholder="Username" required>
-                                        <input type="password" name="password" placeholder="Enter Password" required>
-                                        <div class="button-box">
-                                            <button type="submit">Login</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
 
-                        
-                   
+                    <div class="login-form-container">
+                        <div class="login-register-form">
+
+
+                            <form action="{% url 'login' %}" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="username" placeholder="Username" required>
+                                {{form.username.errors}}
+                                <input type="password" name="password" placeholder="Enter a Password" required>
+                                {{form.password.errors}}
+                                <div class="button-box">
+                                    <button type="submit">Login</button>
+                                </div>
+                            </form>
+                            {% if not form.username.errors %}
+                            <div class="text-danger">Error: Check username and password</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+
+
             </div>
         </div>
     </div>
