@@ -22,9 +22,11 @@
                         <li class="menu-item-has-children">
                             <a href="{% url 'product-list' %}">Products</a>
                         </li>
+                        {% if request.user.is_superuser %}
                         <li class="menu-item-has-children">
                             <a href="#">Draft Products</a>
                         </li>
+                        {% endif %}
                         <li class="menu-item-has-children"><a href="#">Category</a>
                             <ul class="dropdown">
                                 {% for category in categories %}
@@ -38,10 +40,10 @@
                                 {% for tag in tags %}
                                 <li><a href="{% url 'tag-list' tag.id %}">{{tag.name}} </a></li>
                                 {% endfor %}
-                                <li ><a href="#"class="text-warning">All Tags </a></li>
+                                <li><a href="#" class="text-warning">All Tags </a></li>
                             </ul>
                         </li>
-                        
+
 
 
 
@@ -59,9 +61,18 @@
                 <a class="mobile-account-active" href="#">My Account <i class="sli sli-arrow-down"></i></a>
                 <div class="lang-curr-dropdown account-dropdown-active">
                     <ul>
+                        {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'password_change' %}">Change password</a></li>
+                        <li>
+                            <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="logout" class="btn btn-warning" />
+                            </form>
+                        </li>
+                        {% else %}
                         <li><a href="{% url 'login' %}">Login</a></li>
                         <li><a href="{% url 'register' %}">Creat Account</a></li>
-                        <li><a href="my-account.html">My Account</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

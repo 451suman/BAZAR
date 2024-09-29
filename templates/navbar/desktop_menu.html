@@ -21,9 +21,11 @@
                                 <li class="angle-shape">
                                     <a href="{% url 'product-list' %}">Products </a>
                                 </li>
+                                {% if request.user.is_superuser %}
                                 <li class="angle-shape">
                                     <a href="#"> Draft Products </a>
                                 </li>
+                                {% endif %}
                                 <li class="angle-shape"><a href="#">categories </a>
                                     <ul class="submenu">
                                         {% for category in categories %}
@@ -118,19 +120,20 @@
                                     <h4>
                                         {% if request.user.is_authenticated %}
                                         <p>Welcome, @{{ request.user.username }}!</p>
-                                    {% else %}
+                                        {% else %}
                                         <p>Hello, Guest!</p>
-                                    {% endif %}
-                                    
+                                        {% endif %}
+
 
                                     </h4>
                                     <li><a href="my-account.html">My Account</a></li>
                                     <ul>
                                         {% if request.user.is_authenticated %}
+                                        <li><a href="{% url 'password_change' %}">Change password</a></li>
                                         <li>
                                             <form action="{% url 'logout' %}" method="post">
                                                 {% csrf_token %}
-                                                <input type="submit" value="logout" class="btn btn-warning" /> 
+                                                <input type="submit" value="logout" class="btn btn-warning" />
                                             </form>
                                         </li>
                                         {% else %}
