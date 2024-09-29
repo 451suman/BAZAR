@@ -19,13 +19,24 @@
                                 <div class="login-register-form">
                                     <form action="{% url 'register' %}" method="post">
                                        {% csrf_token %}
-                                        <input type="text" name="first_name" placeholder="First Name" required>
-                                        <input type="text" name="last_name" placeholder="Last Name" required>
-                                        <input type="email" name="email" placeholder="Email" required>
-                                        <input type="text" name="username" placeholder="Username" required>
+                                        <input type="text" name="first_name" placeholder="Enter a First Name" required>
+                                        {{ form.first_name.errors }}
+                                        <input type="text" name="last_name" placeholder="Enter a Last Name" required>
+                                        {{ form.last_name.errors }}
+                                        <input type="email" name="email" placeholder="Enter a Email" required>
+                                        {{ form.email.errors }}
+                                        <input type="text" name="username" placeholder="Enter a Username" required>
+                                        {{ form.username.errors }}
+                                        <input type="text" name="address" placeholder="Enter a Address" required>
+                                        {{ form.address.errors }}
+                                        <input type="phone" name="phone" placeholder="Enter a Phone" required>
+                                        {{ form.phone.errors }}
                                         <input type="password" name="password1" placeholder="Enter Password" required>
+                                        {{ form.password1.errors }}
                                         <input type="password" name="password2" placeholder="Confirm Password" required>
+                                        {{ form.password2.errors }}
 
+                                       
                                         <div class="button-box">
                                             <button type="submit">Register</button>
                                         </div>

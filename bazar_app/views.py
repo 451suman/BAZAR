@@ -1,5 +1,5 @@
 from django.contrib import messages
-from typing import Any
+
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
@@ -16,7 +16,7 @@ from django.views.generic import (
 from bazar_app.forms import AddProductForm, UserRegistrationForm
 from bazar_app.models import Product
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import login
+# from django.contrib.auth import login
 
 
 # Create your views here.

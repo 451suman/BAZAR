@@ -6,7 +6,7 @@ from django_summernote.admin import SummernoteModelAdmin
 
 # Register your models here .
 
-admin.site.register([Category, Tag, UserProfile])
+admin.site.register([Category, Tag])
 
 
 class ProductAdmin(SummernoteModelAdmin):
@@ -46,3 +46,9 @@ class ContactAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Contact, ContactAdmin)
+
+
+class  UserProfileAdmin (admin.ModelAdmin):
+    list_display = ("user", "address", "phone")
+
+admin.site.register(UserProfile, UserProfileAdmin)
