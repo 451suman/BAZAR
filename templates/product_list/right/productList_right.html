@@ -13,7 +13,7 @@
                         </div>
                         <div class="ht-product-content">
                             <div class="ht-product-content-inner">
-                                <h6 class="ht-product-title"><a href="{% url 'product-detail' product.pk %}">{{product.title|truncatechars:75}}</a></h6>
+                                <h6 class="ht-product-title"><a href="{% url 'product-detail' product.pk %}">{{product.title|truncatechars:50}}</a></h6>
                                 <p class="text-danger">Category: {{ product.category.name }}</p>
                                 <p  class="text-danger" style="font-size:10px;">Tags: {{ product.tag.all|join:", "}}</p>
                                 <div class="ht-product-price">

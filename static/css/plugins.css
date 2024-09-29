@@ -1746,7 +1746,8 @@ img.mfp-img {
 }
 .owl-carousel .owl-item img {
   display: block;
-  max-height: 500px; /* Maintains aspect ratio for desktop */
+  max-height: 500px; 
+  max-width: 450px;/* Maintains aspect ratio for desktop */
   width: auto;       /* Allows width to adjust */
   margin: 0 auto;   /* Centers the image */
   object-fit: cover; /* Ensures the image covers the space */

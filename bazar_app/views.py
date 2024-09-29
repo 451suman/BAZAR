@@ -1,6 +1,6 @@
 from django.contrib import messages
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import (
@@ -16,6 +16,7 @@ from django.views.generic import (
 from bazar_app.forms import AddProductForm, UserRegistrationForm
 from bazar_app.models import Product
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils import timezone
 # from django.contrib.auth import login
 
 
@@ -62,6 +63,8 @@ class ProductsListView(ListView):
             published_at__isnull=False, status="active"
         ).order_by("-published_at")
         return query
+    
+
 
 
 class CategoriesListView(ListView):
@@ -104,7 +107,7 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(
-            published_at__isnull=False,
+            
             status="active",
         )
 
@@ -159,3 +162,30 @@ class ProductDeleteview(LoginRequiredMixin, DeleteView):
     def form_valid(self, form):
         messages.success(self.request, "product was Deleted Successfully")
         return super().form_valid(form)
+
+
+class DraftProductsListView(LoginRequiredMixin, ListView):
+    model = Product
+    template_name = "product_list/product_list.html"
+    context_object_name = "products"
+    paginate_by = 9
+
+    def get_queryset(self):
+        query = super().get_queryset()
+        query = Product.objects.filter(
+            published_at__isnull=True, status="active"
+        ).order_by("-created_at")
+        return query
+    
+
+
+class PublishDraftView(LoginRequiredMixin, View):
+    def get(self, request, id):  # Change `pk` to `id` here
+        product = Product.objects.get(pk=id, published_at__isnull=True)
+        product.published_at = timezone.now()
+        product.save()
+        messages.success(request, "Product was published successfully!")
+        return redirect("product-detail", id)
+
+
+

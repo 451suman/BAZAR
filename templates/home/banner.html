@@ -28,7 +28,7 @@
                                     <div class="ht-product-content">
                                         <div class="ht-product-content-inner">
                                             <h4 class="ht-product-title">
-                                                <a href="{% url 'product-detail' product.pk %}">{{ product.title|truncatechars:100 }}</a>
+                                                <a href="{% url 'product-detail' product.pk %}">{{ product.title|truncatechars:50 }}</a>
                                             </h4>
                                             <p class="text-danger">Category: {{ product.category.name }}</p>
                                             <div class="ht-product-price">

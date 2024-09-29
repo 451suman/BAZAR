@@ -50,6 +50,10 @@
             <div class="product-details-content ml-30">
                 {% if request.user.is_superuser %}
                 <div class="mb-4">
+                    {% if product.published_at is None %}
+                    <a href="{% url 'published' product.pk %}" class="btn btn-info">Published</a>
+                    {% endif %}
+
                     <a href="{% url 'update-product' product.pk %}" class="btn btn-success">EDIT</a>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletemodal">

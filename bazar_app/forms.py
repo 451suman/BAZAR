@@ -1,5 +1,5 @@
 from django import forms
-from bazar_app.models import Contact, Product
+from bazar_app.models import Contact, Product, UserProfile
 from django_summernote.widgets import SummernoteWidget
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -14,7 +14,7 @@ class ContactForm(forms.ModelForm):
 class AddProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = [ "title", "description", "featured_image", "video_link", "status", "category", "tag", "price", "stock"]
         widgets = {
             "description": SummernoteWidget(),
             "featured_image": forms.ClearableFileInput(
@@ -23,10 +23,6 @@ class AddProductForm(forms.ModelForm):
         }
 
 
-from django import forms
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile  # Make sure to import UserProfile
 
 
 class UserRegistrationForm(UserCreationForm):

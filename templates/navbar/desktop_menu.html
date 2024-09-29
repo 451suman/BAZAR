@@ -23,7 +23,7 @@
                                 </li>
                                 {% if request.user.is_superuser %}
                                 <li class="angle-shape">
-                                    <a href="#"> Draft Products </a>
+                                    <a href="{% url 'draft-product-list' %}"> Draft Products </a>
                                 </li>
                                 {% endif %}
                                 <li class="angle-shape"><a href="#">categories </a>
