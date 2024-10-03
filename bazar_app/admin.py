@@ -1,12 +1,12 @@
 from django.utils.html import format_html
 from django.contrib import admin
 
-from bazar_app.models import Category, Product, Tag, Contact, UserProfile
+from bazar_app.models import Category, Product, Tag, Contact, UserProfile, Order, OrderItem
 from django_summernote.admin import SummernoteModelAdmin
 
 # Register your models here .
 
-admin.site.register([Category, Tag])
+admin.site.register([Category, Tag, Order, OrderItem])
 
 
 class ProductAdmin(SummernoteModelAdmin):

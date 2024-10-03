@@ -40,6 +40,7 @@ class HomeView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
         context["sliders"] = Product.objects.filter(
             published_at__isnull=False, status="active"
         ).order_by("-published_at")[:3]
