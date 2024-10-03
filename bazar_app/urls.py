@@ -20,4 +20,10 @@ urlpatterns = [
 
     path("category/", views.CategoryListView.as_view(), name="category"),
     path("tag/", views.TagListView.as_view(), name="tag"),
+
+
+    path("create_order/<int:pk>/", views.create_order, name="create_order"),
+    path("order-track", views.OrderTrackView.as_view(), name="order-track"),
+
+    path("cancell-order/<int:pk>/", views.CancellOrderView.as_view(), name="cancell-order"),
 ]

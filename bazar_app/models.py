@@ -87,4 +87,4 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField()
 
     def __str__(self):
-        return f'{self.quantity} of {self.product.name}'
+        return f'{self.quantity} of {self.product.title}'

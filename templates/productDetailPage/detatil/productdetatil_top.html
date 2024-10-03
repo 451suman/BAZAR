@@ -68,6 +68,10 @@
                     <span>Rs. {{product.price}} </span>
                 </div>
                 <div class="pro-details-meta">
+                    <span>Stocks : {{product.stock}}</span>
+
+                </div>
+                <div class="pro-details-meta">
                     <span>Categories : {{product.category}}</span>
 
                 </div>
@@ -90,16 +94,22 @@
                 <div class="pro-details-size-color">
                 </div>
                 <div class="pro-details-quality">
-                    <div class="cart-plus-minus">
-
-                        <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
-                    </div>
+                    {% if product.stock < 1  %}
                     <div class="pro-details-cart btn-hover">
-                        <a href="#">Add To Cart</a>
+                        <a href="#">Sorry! Out Of Stock</a>
                     </div>
-                    <div class="pro-details-wishlist">
-                        <a title="Add To Wishlist" href="#"><i class="sli sli-heart"></i></a>
-                    </div>
+                    {% else %}
+
+                    <form method="post" action="{% url 'create_order' product.id %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="number" class="form-control"  name="quantity" value="1" min="1" max="{{ product.stock }}">
+                        </div>
+                        <div class="">
+                            <button type="submit" class="btn btn-primary">Buy Now</button>
+                        </div>
+                    </form>
+                    {% endif %}
 
                 </div>
 

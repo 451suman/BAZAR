@@ -199,3 +199,64 @@ class TagListView(ListView):
     model = Tag
     template_name = "tag_name_list.html"
     context_object_name="tags"
+
+from django.shortcuts import get_object_or_404, redirect
+from django.db import transaction
+from django.contrib.auth.decorators import login_required
+from .models import Order, OrderItem, Product
+
+@login_required
+@transaction.atomic  # Ensures atomicity (both Order and OrderItem are saved or none)
+def create_order(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    user = request.user  # Get the logged-in user
+    
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 1))
+        total_price = product.price * quantity
+
+        # Create Order
+        order = Order.objects.create(
+            user=user,
+            status='pending',
+            total_price=total_price
+        )
+
+        # Create OrderItem
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            quantity=quantity
+        )
+
+        # Optionally, update stock or any other operations
+        # product.stock -= quantity
+        # product.save()
+        messages.success(request, "Order created successfully!")
+        return redirect('order-track')  # Redirect to an order success page
+
+
+
+
+class OrderTrackView(LoginRequiredMixin, ListView):
+    model = OrderItem
+    template_name = 'order_track_page/order_track.html'
+    context_object_name = 'items'
+
+    def get_queryset(self):
+        # Get all OrderItems related to the logged-in user's orders
+        return OrderItem.objects.filter(order__user=self.request.user).select_related('product').order_by('order__ordered_at')
+
+
+class CancellOrderView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        order = get_object_or_404(Order, pk=pk, user=request.user)
+
+        if order.status not in ['canceled', 'completed','shipped']:
+            order.status = 'canceled'
+            order.save()
+            messages.success(request, "Order has been canceled successfully.")
+        else:
+            messages.warning(request, "This order cannot be canceled.")
+
+        return redirect('order-track')
