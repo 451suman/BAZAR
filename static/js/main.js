@@ -19,34 +19,34 @@
     /*--
     Cart active
     -----------------------------------*/
-    if ($('.cart-wrap').length) {
-        var $body = $('body'),
-            $cartWrap = $('.cart-wrap'),
-            $cartContent = $cartWrap.find('.shopping-cart-content');
-        $cartWrap.on('click', '.icon-cart-active', function(e) {
-            e.preventDefault();
-            var $this = $(this);
-            if (!$this.parent().hasClass('show')) {
-                $this.siblings('.shopping-cart-content').addClass('show').parent().addClass('show');
-            } else {
-                $this.siblings('.shopping-cart-content').removeClass('show').parent().removeClass('show');
-            }
-        });
-        /*Close When Click Close Button*/
-        $cartWrap.on('click', '.cart-close', function(e) {
-            e.preventDefault();
-            var $this = $(this);
-            $this.closest('.cart-wrap').removeClass('show').find('.shopping-cart-content').removeClass('show');
-        });
-        /*Close When Click Outside*/
-        $body.on('click', function(e) {
-            var $target = e.target;
-            if (!$($target).is('.cart-wrap') && !$($target).parents().is('.cart-wrap') && $cartWrap.hasClass('show')) {
-                $cartWrap.removeClass('show');
-                $cartContent.removeClass('show');
-            }
-        });
-    }
+    // if ($('.cart-wrap').length) {
+    //     var $body = $('body'),
+    //         $cartWrap = $('.cart-wrap'),
+    //         $cartContent = $cartWrap.find('.shopping-cart-content');
+    //     $cartWrap.on('click', '.icon-cart-active', function(e) {
+    //         e.preventDefault();
+    //         var $this = $(this);
+    //         if (!$this.parent().hasClass('show')) {
+    //             $this.siblings('.shopping-cart-content').addClass('show').parent().addClass('show');
+    //         } else {
+    //             $this.siblings('.shopping-cart-content').removeClass('show').parent().removeClass('show');
+    //         }
+    //     });
+    //     /*Close When Click Close Button*/
+    //     $cartWrap.on('click', '.cart-close', function(e) {
+    //         e.preventDefault();
+    //         var $this = $(this);
+    //         $this.closest('.cart-wrap').removeClass('show').find('.shopping-cart-content').removeClass('show');
+    //     });
+    //     /*Close When Click Outside*/
+    //     $body.on('click', function(e) {
+    //         var $target = e.target;
+    //         if (!$($target).is('.cart-wrap') && !$($target).parents().is('.cart-wrap') && $cartWrap.hasClass('show')) {
+    //             $cartWrap.removeClass('show');
+    //             $cartContent.removeClass('show');
+    //         }
+    //     });
+    // }
     
     
     /*--
@@ -281,25 +281,7 @@
     /*----------------------------
     	Cart Plus Minus Button
     ------------------------------ */
-    var CartPlusMinus = $('.cart-plus-minus');
-    CartPlusMinus.prepend('<div class="dec qtybutton">-</div>');
-    CartPlusMinus.append('<div class="inc qtybutton">+</div>');
-    $(".qtybutton").on("click", function() {
-        var $button = $(this);
-        var oldValue = $button.parent().find("input").val();
-        if ($button.text() === "+") {
-            var newVal = parseFloat(oldValue) + 1;
-        } else {
-            // Don't allow decrementing below zero
-            if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 1;
-            }
-        }
-        $button.parent().find("input").val(newVal);
-    });
-    
+
     
     /*--
     instafeed

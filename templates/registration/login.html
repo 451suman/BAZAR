@@ -19,7 +19,7 @@
                         <div class="login-register-form">
 
 
-                            <form action="{% url 'login' %}" method="post">
+                            <form action="{% url 'loginuser' %}" method="post">
                                 {% csrf_token %}
                                 <input type="text" name="username" placeholder="Username" required>
                                 {{form.username.errors}}
@@ -29,7 +29,7 @@
                                     <button type="submit">Login</button>
                                 </div>
                             </form>
-                            {% if not form.username.errors %}
+                            {% if form.username.errors %}
                             <div class="text-danger">Error: Check username and password</div>
                             {% endif %}
                         </div>

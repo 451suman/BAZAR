@@ -14,6 +14,7 @@ from django.views.generic import (
 )
 
 from bazar_app.forms import AddProductForm, UserRegistrationForm
+from django.contrib.auth import authenticate,login,logout
 from bazar_app.models import Category, Product, Tag
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
@@ -21,6 +22,33 @@ from django.utils import timezone
 
 
 # Create your views here.
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # Check if both username and password are provided
+        if username and password:
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                if user.is_superuser:
+                    messages.success(request, "You have been logged in as admin.")
+                    return redirect('admin-home')
+                else:
+                    messages.success(request, "You have been logged in as a normal user.")
+                return redirect('home')  # Redirect to the home page
+            else:
+                messages.error(request, "Error: Invalid username or password.")
+                return redirect('loginuser')  # Redirect back to the login page
+        else:
+            messages.error(request, "Error: Please provide both username and password.")
+            return redirect('loginuser')
+    else:
+        return render(request, 'registration/login.html')  # Render the login form
+    
+
+
 class RegisterView(FormView):
     template_name = "registration/signup.html"
     form_class = UserRegistrationForm
@@ -31,6 +59,7 @@ class RegisterView(FormView):
         messages.success(self.request, "Signup Successfull!")
         # login(self.request, user)
         return super().form_valid(form)
+
 
 
 class HomeView(ListView):
@@ -216,19 +245,19 @@ def create_order(request, pk):
         total_price = product.price * quantity
 
         # Create Order
-        order = Order.objects.create(
+        order = Order(
             user=user,
             status='pending',
             total_price=total_price
         )
-
+        order.save()
         # Create OrderItem
-        OrderItem.objects.create(
+        order_item = OrderItem(
             order=order,
             product=product,
             quantity=quantity
         )
-
+        order_item.save()
         # Optionally, update stock or any other operations
         # product.stock -= quantity
         # product.save()
