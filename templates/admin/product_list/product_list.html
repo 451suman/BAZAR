@@ -1,0 +1,48 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+        <!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+
+				{% include "admin/product_list/product_list_top.html" %}
+
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 product-grid">
+                {% for product in products %}
+					<div class="col">
+						<div class="card">
+                            <a href="">
+                                <img src="{{ product.featured_image.url }}" width="22px" height="225px"  class="card-img-top" alt="...">
+                            </a>
+							<div class="">
+							</div>
+							<div class="card-body">
+                                <a href="">
+                                    <h6 class="card-title cursor-pointer">{{product.title|truncatechars:70}}</h6>
+                                </a>
+								<h6 class="card-title cursor-pointer">Category:{{product.category}}</h6>
+								<div class="clearfix">
+									<p class="mb-0 float-start"><strong>134</strong> Sales</p>
+									<p class="mb-0 float-end fw-bold"><span>Rs. {{product.price}}</span></p>
+								</div>
+								<div class="d-flex align-items-center mt-3 fs-6">
+								  <div class="cursor-pointer">
+									<i class='bx bxs-star text-warning'></i>
+									<i class='bx bxs-star text-warning'></i>
+									<i class='bx bxs-star text-warning'></i>
+									<i class='bx bxs-star text-warning'></i>
+									<i class='bx bxs-star text-secondary'></i>
+								  </div>	
+								  <p class="mb-0 ms-auto">4.2(182)</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				</div><!--end row-->
+                {% include 'admin/product_list/pagination.html' %}
+
+			</div>
+		</div>
+		<!--end page wrapper -->
+        {% endblock content %}
