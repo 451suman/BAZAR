@@ -8,6 +8,8 @@ from admin_app import views
 urlpatterns = [
     path("admin-home/",views.AdminHomeView.as_view(), name="admin-home"),
     path("admin-products/", views.AdminProductsView.as_view(), name="admin-products"),
+    path("admin-orders",views.AdminOrderItemListView.as_view(), name="admin-orders"),
+    path("admin-orderitem-detail/<int:pk>/", views.OrderItemDetailView.as_view(), name="admin-orderitem-detail"),
 ]
 
 

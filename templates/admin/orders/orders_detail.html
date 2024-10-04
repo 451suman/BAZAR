@@ -1,0 +1,62 @@
+{% extends "admin/admin_base.html" %}
+{% block content %}
+
+<div class="page-wrapper">
+  <div class="page-content">
+    <h1>Order item Details</h1>
+
+    <div class="card">
+      <div class="row g-0">
+        <div class="col-md-4 border-end">
+          <img src="{{item.product.featured_image.url}}" class="img-fluid" alt="...">
+
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4><u>Order ID : {{item.order_id}}</u></h4>
+            <h5><u> Ordered Date: {{ item.order.created_at }}</u></h5>
+
+            <h4 class="card-title">{{item.product.title}}</h4>
+
+            <div class="">
+              <span class="price h4">Total Price: {{item.order.total_price}}</span>
+              <br>
+              <span class="text-muted">Quantity: {{item.quantity}}</span>
+              <br>
+              <span class="text-muted">Rs. {{item.product.price}} per item</span><br>
+              <div class="text-dark
+              {% if item.order.ordered_status == 'pending' %}bg-warning{% endif %}
+              {% if item.order.ordered_status == 'shipped' %}bg-secondary {% endif %}
+              {% if item.order.ordered_status == 'completed' %}bg-success{% endif %}
+              {% if item.order.ordered_status == 'canceled' %}bg-danger{% endif %}
+              bg-opacity-25">
+                <h5> Status: {{ item.order.ordered_status }}</h5>
+                <p>Order By: {{ item.order.user.first_name}} {{ item.order.user.last_name}} <br>
+                  Username: @{{ item.order.user.username}} <br>
+                  Email: {{ item.order.user.email}} <br>
+                  Phone: {{ item.order.user.userprofile.phone}} <br>
+                  Adderss: {{ item.order.user.userprofile.address}} <br>
+                  order: {{ item.order.pk}} <br>
+                  item: {{ item.pk}} <br>
+                </p>
+              </div>
+            </div>
+
+            <hr>
+            {% load crispy_forms_tags %}
+            <form method="post"  action="">
+              {% csrf_token %}
+          
+              {{ form|crispy }}
+  
+          
+              <button type="submit" class="btn btn-primary mt-2">Update Ordered Status</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

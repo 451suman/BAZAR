@@ -1,5 +1,5 @@
 from django import forms
-from bazar_app.models import Product
+from bazar_app.models import Order, Product
 from django_summernote.widgets import SummernoteWidget
 
 
@@ -18,3 +18,7 @@ class AddProductForm(forms.ModelForm):
 
 
 
+class UpdateOrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields =["ordered_status"]

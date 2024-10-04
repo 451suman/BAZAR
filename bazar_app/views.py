@@ -33,11 +33,11 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 if user.is_superuser:
-                    messages.success(request, "You have been logged in as admin.")
+                    # messages.success(request, "You have been logged in as admin.")
                     return redirect('admin-home')
                 else:
-                    messages.success(request, "You have been logged in as a normal user.")
-                return redirect('home')  # Redirect to the home page
+                    # messages.success(request, "You have been logged in as a normal user.")
+                    return redirect('home')  # Redirect to the home page
             else:
                 messages.error(request, "Error: Invalid username or password.")
                 return redirect('loginuser')  # Redirect back to the login page
@@ -69,7 +69,6 @@ class HomeView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
         context["sliders"] = Product.objects.filter(
             published_at__isnull=False, status="active"
         ).order_by("-published_at")[:3]
@@ -247,7 +246,7 @@ def create_order(request, pk):
         # Create Order
         order = Order(
             user=user,
-            status='pending',
+            ordered_status='pending',
             total_price=total_price
         )
         order.save()
@@ -274,7 +273,7 @@ class OrderTrackView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         # Get all OrderItems related to the logged-in user's orders
-        return OrderItem.objects.filter(order__user=self.request.user).select_related('product').order_by('order__ordered_at')
+        return OrderItem.objects.filter(order__user=self.request.user).select_related('product').order_by('-created_at')
 
 
 class CancellOrderView(LoginRequiredMixin, View):

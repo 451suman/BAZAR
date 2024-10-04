@@ -5,7 +5,8 @@
       <ul>
         <li>
           <a href="{% url 'home' %}">Home</a>
-        </li>w
+        </li>
+        w
         <li class="active">Order Page</li>
       </ul>
     </div>
@@ -59,8 +60,10 @@
                     <span class="amount">{{ item.order.total_price }}</span>
                   </td>
 
-                  <td class="product-wishlist-cart">{{ item.order.status }}</td>
-                  {% if item.order.status == 'pending' %}
+                  <td class="product-wishlist-cart">
+                    {{ item.order.ordered_status }}
+                  </td>
+                  {% if item.order.ordered_status == 'pending' %}
                   <td class="product-wishlist-cart">
                     <a
                       href="{% url 'cancell-order' item.id %}"
